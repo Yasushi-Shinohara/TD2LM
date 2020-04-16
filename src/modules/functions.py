@@ -5,3 +5,13 @@ import math
 import numpy as np
 from modules.parameters import Delta, a, E0
 #
+def E_hOD(E):
+    hOD = np.zeros([2,2],dtype=np.complex128)
+    hOD[0,1] = a*E0
+    hOD[1,0] = np.conj(hOD[0,1])
+    return hOD
+#
+def psih_Ene(psi,h):
+    Ene = np.vdot(psi,np.dot(h,psi))
+    return np.real(Ene)
+#

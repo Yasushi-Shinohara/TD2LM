@@ -16,16 +16,23 @@ import math
 import ctypes as ct
 from modules.constants import *
 from modules.parameters import *
-#from modules.functions import A_tkAGG, Make_vGG, Make_wmat 
-
-h = np.zeros([2,2],dtype=np.complex128)
-psi = np.zeros([2,2],dtype=np.complex128)
+from modules.functions import E_hOD, psih_Ene
 
 
-#Hamiltonian set up is done
-#
+hD = np.zeros([2,2],dtype=np.complex128)
+hD[0,0] = 0.5*Delta
+hD[1,1] = -0.5*Delta
+hOD = np.zeros([2,2],dtype=np.complex128)
+hOD = E_hOD(0.0)
+h = hD + hOD
 
-#Set up initial condition
+psi = np.zeros([2],dtype=np.complex128)
+psi[1] = 1.0  #Lower level is initailly fully occupied
+
+#Hamiltonian and initial wavefunction set ups are done
+
+Ene = psih_Ene(psi,h)
+print('System energy at initial',Ene)
 #sys.exit()
 
 #############################RT calculation##############################
