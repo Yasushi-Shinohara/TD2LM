@@ -1,16 +1,20 @@
 # coding: UTF-8
 import sys
-from modules.constants import tpi
+from modules.constants import tpi, Atomtime, Hartree, Atomfield
 import numpy as np
 #Default values for options
 cluster_mode = False
 PC_option = True    #Predictor-corrector option
 minimal_output = True #A flag to write-out minimal data or not
 a = 1.0
-Delta = 2.0  #The Gap of the two-level system in a.u.
-dt = 1.0e-2  #The size of the time-step
-Nt = 1000    #The number of time steps
-E0 = 1.0e0   #Field strength in a.u.
+Delta = 9.0/Hartree      #The Gap of the two-level system in a.u.
+dt = 5.0e-1              #The size of the time-step
+Nt = 4000               #The number of time steps
+omegac = 1.55/Hartree    #Photon energy
+phi_CEP = 0.0/tpi        #Carrier envelope phase
+Tpulse = 40.0/Atomtime   #A parameter for pulse duration
+nenvelope = 4            #Power for the sing envelope function
+E0 = 1.0e0/Atomfield     #Field strength in a.u.
 
 argv = sys.argv
 argc = len(argv)
@@ -50,6 +54,14 @@ elif (argc == 2):
             dt = float(str(text[i+1]))
         if (str(text[i]) == 'Nt'):
             Nt = int(str(text[i+1]))
+        if (str(text[i]) == 'Tpulse'):
+            Tpulse = float(str(text[i+1]))
+        if (str(text[i]) == 'omegac'):
+            omegac = float(str(text[i+1]))
+        if (str(text[i]) == 'phi_CEP'):
+            phi_CEP = float(str(text[i+1]))
+        if (str(text[i]) == 'nenvelope'):
+            nenvelope = int(str(text[i+1]))
         if (str(text[i]) == 'E0'):
             E0 = float(str(text[i+1]))
 else:
@@ -64,5 +76,10 @@ print('# a =', a)
 print('# Delta =', Delta) 
 print('# dt =', dt) 
 print('# Nt =', Nt) 
+print('# Tpulse =', Tpulse) 
+print('# nenvelope =', nenvelope) 
+print('# omegac =', omegac) 
+print('# phi_CEP =', phi_CEP, ' [2 pi]')
+phi_CEP = tpi*phi_CEP
 print('# E0 =', E0) 
 

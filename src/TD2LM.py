@@ -18,6 +18,9 @@ from modules.constants import *
 from modules.parameters import *
 from modules.functions import E_hOD, psih_Ene
 
+if (not cluster_mode):
+    import matplotlib.pyplot as plt
+    from matplotlib import cm #To include color map
 
 hD = np.zeros([2,2],dtype=np.complex128)
 hD[0,0] = 0.5*Delta
@@ -39,6 +42,21 @@ print('System energy at initial',Ene)
 
 t = np.zeros([Nt],dtype=np.float64)
 E = np.zeros([Nt],dtype=np.float64)
+for it in range(Nt):
+    t[it] = dt*it
+    if (t[it] < Tpulse):
+        E[it] = E0*(np.sin(pi*t[it]/Tpulse))**nenvelope*np.sin(omegac*(t[it] - 0.5*Tpulse) + phi_CEP)
+if (np.amax(t) < Tpulse):
+    print('# Warning: max(t) is shorter than Tpulse')
+        
+if (not cluster_mode):
+    plt.xlabel('Time [fs]')
+    plt.ylabel('Field strength [V/nm]')
+    plt.xlim(0.0,np.amax(t)*Atomtime)
+    plt.plot(t*Atomtime,E*Atomfield)
+    plt.grid()
+    plt.show()
+
 
 tt = time.time()
 print('# Elapse time for preparation: ', tt - ts, ' [sec]')
