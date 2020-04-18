@@ -39,10 +39,12 @@ Ene = psih_Ene(psi,h)
 print('System energy at initial',Ene)
 #sys.exit()
 
-#############################RT calculation##############################
-
+#############################Prep. for RT################################
 t = np.zeros([Nt],dtype=np.float64)
 E = np.zeros([Nt],dtype=np.float64)
+nv = np.zeros([Nt],dtype=np.float64)
+nc = np.zeros([Nt],dtype=np.float64)
+Ene = np.zeros([Nt],dtype=np.float64)
 for it in range(Nt):
     t[it] = dt*it
     if (t[it] < Tpulse):
@@ -58,11 +60,43 @@ if (not cluster_mode):
     plt.grid()
     plt.show()
 
+#############################RT calculation##############################
+
 
 tt = time.time()
 print('# Elapse time for preparation: ', tt - ts, ' [sec]')
 print('# Preparaiton is done')
 #Time-propagation
+for it in range(Nt):
+    hOD = E_hOD(E[it])    
+    h = hD + hOD
+    w, v = np.linalg.eigh(h)
+    U = np.exp(-zI*w[0]*dt)*np.outer(v[0,:],np.conj(v[0,:])) + np.exp(-zI*w[1]*dt)*np.outer(v[1,:],np.conj(v[1,:]))
+    psi = np.dot(U, psi)
+    nv[it] = (np.abs(psi[0]))**2
+    nc[it] = (np.abs(psi[1]))**2
+    norm = np.linalg.norm(psi)
+    Ene[it] = psih_Ene(psi,h)
+    if (it%1000 == 0):
+        print('# ',it, Ene[it], norm)
+
+if (not cluster_mode):
+    plt.figure()
+    plt.xlabel('Time [fs]')
+    plt.ylabel('Energy [eV]')
+    plt.xlim(0.0,np.amax(t)*Atomtime)
+    plt.plot(t*Atomtime,nv,label='nv')
+    plt.plot(t*Atomtime,nc,label='nc')
+    plt.legend()
+    plt.grid()
+    plt.show()
+    plt.figure()
+    plt.xlabel('Time [fs]')
+    plt.ylabel('Energy [eV]')
+    plt.xlim(0.0,np.amax(t)*Atomtime)
+    plt.plot(t*Atomtime,Ene*Hartree)
+    plt.grid()
+    plt.show()
 
 te = time.time()
 print('# Elapse time for RT: ', te - tt, ' [sec] = ', (te - tt)/60.0, ' [min] = ', (te - tt)/3600, ' [hour]')

@@ -6,7 +6,7 @@ import numpy as np
 cluster_mode = False
 PC_option = True    #Predictor-corrector option
 minimal_output = True #A flag to write-out minimal data or not
-a = 1.0
+a = 10.0
 Delta = 9.0/Hartree      #The Gap of the two-level system in a.u.
 dt = 5.0e-1              #The size of the time-step
 Nt = 4000               #The number of time steps

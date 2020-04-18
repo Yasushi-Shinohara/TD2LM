@@ -3,11 +3,11 @@
 import os
 import math
 import numpy as np
-from modules.parameters import Delta, a, E0
+from modules.parameters import Delta, a
 #
 def E_hOD(E):
     hOD = np.zeros([2,2],dtype=np.complex128)
-    hOD[0,1] = a*E0
+    hOD[0,1] = a*E
     hOD[1,0] = np.conj(hOD[0,1])
     return hOD
 #

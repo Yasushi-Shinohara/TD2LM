@@ -70,4 +70,5 @@ print('# omegac =', omegac)
 print('# phi_CEP =', phi_CEP, ' [2 pi]')
 phi_CEP = tpi*phi_CEP
 print('# E0 =', E0) 
+print('# a*E0 =', a*E0) 
 
