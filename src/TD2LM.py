@@ -16,7 +16,8 @@ import math
 import ctypes as ct
 from modules.constants import *
 from modules.parameters import *
-from modules.readparameters import *
+from modules.readparameters import readpara
+readpara()
 from modules.functions import E_hOD, psih_Ene
 
 if (not cluster_mode):
