@@ -3,11 +3,11 @@
 import os
 import math
 import numpy as np
-from modules.parameters import a
+#from modules.parameters import a
 #
-def E_hOD(E):
+def E_hOD(param,E):
     hOD = np.zeros([2,2],dtype=np.complex128)
-    hOD[0,1] = a*E
+    hOD[0,1] = param.a*E
     hOD[1,0] = np.conj(hOD[0,1])
     return hOD
 #
