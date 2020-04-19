@@ -1,4 +1,6 @@
 # coding: UTF-8
+# This is created 2020/04/17 by Y. Shinohara
+# This is lastly modified 2020/04/20 by Y. Shinohara
 import sys
 from modules.constants import tpi, Atomtime, Hartree, Atomfield, aB
 import numpy as np

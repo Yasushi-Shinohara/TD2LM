@@ -1,9 +1,17 @@
 # coding: UTF-8
 #Relevant functions are written
+# This is created 2020/04/17 by Y. Shinohara
+# This is lastly modified 2020/04/20 by Y. Shinohara
 import os
 import math
 import numpy as np
-#from modules.parameters import a
+from modules.constants import *
+#
+def get_hD(param):
+    hD = np.zeros([2,2],dtype=np.complex128)
+    hD[0,0] = 0.5*param.Delta
+    hD[1,1] = -0.5*param.Delta
+    return hD
 #
 def E_hOD(param,E):
     hOD = np.zeros([2,2],dtype=np.complex128)
@@ -15,3 +23,16 @@ def psih_Ene(psi,h):
     Ene = np.vdot(psi,np.dot(h,psi))
     return np.real(Ene)
 #
+def h_U(param,h):
+    w, v = np.linalg.eigh(h)
+    U = np.exp(-zI*w[0]*param.dt)*np.outer(v[0,:],np.conj(v[0,:])) + np.exp(-zI*w[1]*param.dt)*np.outer(v[1,:],np.conj(v[1,:]))
+    return U
+#
+def Make_Efield(param):
+    t = np.zeros([param.Nt],dtype=np.float64)
+    E = np.zeros([param.Nt],dtype=np.float64)
+    for it in range(param.Nt):
+        t[it] = param.dt*it
+        if (t[it] < param.Tpulse):
+            E[it] = param.E0*(np.sin(pi*t[it]/param.Tpulse))**param.nenvelope*np.sin(param.omegac*(t[it] - 0.5*param.Tpulse) + param.phi_CEP)
+    return t, E

@@ -1,4 +1,6 @@
 # coding: UTF-8
+# This is created 2020/04/17 by Y. Shinohara
+# This is lastly modified 2020/04/20 by Y. Shinohara
 import numpy as np
 #Mathematicl constants
 pi  = np.pi
