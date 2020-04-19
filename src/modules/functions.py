@@ -7,7 +7,7 @@ import numpy as np
 #
 def E_hOD(param,E):
     hOD = np.zeros([2,2],dtype=np.complex128)
-    hOD[0,1] = param.a*E
+    hOD[0,1] = -param.a*E                     #The negative sign is from elementary charge of electron
     hOD[1,0] = np.conj(hOD[0,1])
     return hOD
 #

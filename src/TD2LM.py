@@ -37,7 +37,7 @@ psi[1] = 1.0  #Lower level is initailly fully occupied
 #Hamiltonian and initial wavefunction set ups are done
 
 Ene = psih_Ene(psi,h)
-print('System energy at initial',Ene)
+print('# System energy at initial:',Ene, '[a.u.] =',Ene*Hartree, ' [eV]')
 #sys.exit()
 
 #############################Prep. for RT################################
@@ -93,10 +93,19 @@ for it in range(param.Nt):
 if (not param.cluster_mode):
     plt.figure()
     plt.xlabel('Time [fs]')
-    plt.ylabel('Energy [eV]')
+    plt.ylabel('Populations')
     plt.xlim(0.0,np.amax(t)*Atomtime)
     plt.plot(t*Atomtime,nv,label='nv')
     plt.plot(t*Atomtime,nc,label='nc')
+    plt.legend()
+    plt.grid()
+    plt.show()
+    plt.figure()
+    plt.yscale('log')
+    plt.xlabel('Time [fs]')
+    plt.ylabel('Populations')
+    plt.xlim(0.0,np.amax(t)*Atomtime)
+    plt.plot(t*Atomtime,nv,label='nv')
     plt.legend()
     plt.grid()
     plt.show()

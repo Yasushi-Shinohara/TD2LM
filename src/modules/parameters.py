@@ -1,18 +1,18 @@
 # coding: UTF-8
 import sys
-from modules.constants import tpi, Atomtime, Hartree, Atomfield
+from modules.constants import tpi, Atomtime, Hartree, Atomfield, aB
 import numpy as np
 
 class parameter_class:
     def __init__(self):
         #Default values for the parameters
         self.cluster_mode = False
-        self.PC_option = True    #Predictor-corrector option
-        self.minimal_output = True #A flag to write-out minimal data or not
-        self.a = 10.0
+        self.PC_option = True         #Predictor-corrector option
+        self.minimal_output = True    #A flag to write-out minimal data or not
+        self.a = 10.0                 #A spatial dimension constant that the dipole : d = e*a
         self.Delta = 9.0/Hartree      #The Gap of the two-level system in a.u.
         self.dt = 5.0e-1              #The size of the time-step
-        self.Nt = 4000               #The number of time steps
+        self.Nt = 4000                #The number of time steps
         self.omegac = 1.55/Hartree    #Photon energy
         self.phi_CEP = 0.0/tpi        #Carrier envelope phase
         self.Tpulse = 40.0/Atomtime   #A parameter for pulse duration
@@ -76,15 +76,16 @@ class parameter_class:
         print('# cluster_mode =', self.cluster_mode)
         print('# PC_option =', self.PC_option)
         print('# minimal_output =', self.minimal_output)
-        print('# a =', self.a)
-        print('# Delta =', self.Delta) 
-        print('# dt =', self.dt) 
+        print('# a =', self.a, ' [a.u.] =',self.a*aB, ' [nm]')
+        print('# Delta =', self.Delta, ' [a.u.] =', self.Delta*Hartree, ' [eV]') 
+        print('# dt =', self.dt, ' [a.u.] =', self.dt*Atomtime, ' [fs]') 
         print('# Nt =', self.Nt) 
-        print('# Tpulse =', self.Tpulse) 
+        print('# Nt*dt =', self.Nt*self.dt, '[a.u.] =', self.Nt*self.dt*Atomtime, '[fs]') 
+        print('# Tpulse =', self.Tpulse, ' [a.u.] =', self.Tpulse*Atomtime, ' [fs]') 
         print('# nenvelope =', self.nenvelope) 
-        print('# omegac =', self.omegac) 
+        print('# omegac =', self.omegac, ' [a.u.] =', self.omegac*Hartree, ' [eV]') 
         print('# phi_CEP =', self.phi_CEP, ' [2 pi]')
         self.phi_CEP = tpi*self.phi_CEP
-        print('# E0 =', self.E0) 
-        print('# a*E0 =', self.a*self.E0) 
+        print('# E0 =', self.E0, ' [a.u.] =', self.E0*Atomfield, ' [V/nm]') 
+        print('# e*a*E0 =', self.a*self.E0, ' [a.u.] =', self.a*self.E0*Hartree, ' [eV]') 
 
