@@ -50,6 +50,12 @@ for it in range(param.Nt):
     t[it] = param.dt*it
     if (t[it] < param.Tpulse):
         E[it] = param.E0*(np.sin(pi*t[it]/param.Tpulse))**param.nenvelope*np.sin(param.omegac*(t[it] - 0.5*param.Tpulse) + param.phi_CEP)
+if (param.PC_option):
+    Eave = 0.0*E
+    for it in range(param.Nt-1):
+        Eave[it] = 0.5*(E[it] + E[it+1])
+    Eave[param.Nt - 1] = 1.0*Eave[param.Nt - 2]
+
 if (np.amax(t) < param.Tpulse):
     print('# Warning: max(t) is shorter than Tpulse')
         
@@ -69,7 +75,10 @@ print('# Elapse time for preparation: ', tt - ts, ' [sec]')
 print('# Preparaiton is done')
 #Time-propagation
 for it in range(param.Nt):
-    hOD = E_hOD(param,E[it])    
+    if (param.PC_option):
+        hOD = E_hOD(param,Eave[it])
+    else:
+        hOD = E_hOD(param,E[it])
     h = hD + hOD
     w, v = np.linalg.eigh(h)
     U = np.exp(-zI*w[0]*param.dt)*np.outer(v[0,:],np.conj(v[0,:])) + np.exp(-zI*w[1]*param.dt)*np.outer(v[1,:],np.conj(v[1,:]))
