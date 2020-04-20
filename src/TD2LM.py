@@ -71,6 +71,9 @@ for it in range(param.Nt):
     if (it%1000 == 0):
         print('# ',it, Ene[it], norm)
 
+print('# System energy at end:',Ene[param.Nt-1], '[a.u.] =',Ene[param.Nt-1]*Hartree, ' [eV]')
+print('# Absorbed energy:',Ene[param.Nt-1]-Ene[0], '[a.u.] =',(Ene[param.Nt-1]-Ene[0])*Hartree, ' [eV]')
+
 if (not param.cluster_mode):
     #Plot data obtained in real-time evolution, nv, nc, Ene
     plot_RT(plt,cm, t,nv,nc,Ene)
