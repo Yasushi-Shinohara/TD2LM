@@ -1,7 +1,7 @@
 # coding: UTF-8
 #Relevant functions are written
 # This is created 2020/04/17 by Y. Shinohara
-# This is lastly modified 2020/04/20 by Y. Shinohara
+# This is lastly modified 2020/05/20 by Y. Shinohara
 import os
 import math
 import numpy as np
@@ -30,9 +30,13 @@ def h_U(param,h):
 #
 def Make_Efield(param):
     t = np.zeros([param.Nt],dtype=np.float64)
-    E = np.zeros([param.Nt],dtype=np.float64)
+#    E = np.zeros([param.Nt],dtype=np.float64)
+    E = np.zeros([param.Nt,param.Ncolor],dtype=np.float64)
     for it in range(param.Nt):
         t[it] = param.dt*it
-        if (t[it] < param.Tpulse):
-            E[it] = param.E0*(np.sin(pi*t[it]/param.Tpulse))**param.nenvelope*np.sin(param.omegac*(t[it] - 0.5*param.Tpulse) + param.phi_CEP)
+    for icolor in range(param.Ncolor):
+        for it in range(param.Nt):
+            if (t[it] < param.Tpulse[icolor]):
+                E[it,icolor] = param.E0[icolor]*(np.sin(pi*t[it]/param.Tpulse[icolor]))**param.nenvelope[icolor]*np.sin(param.omegac[icolor]*(t[it] - 0.5*param.Tpulse[icolor]) + param.phi_CEP[icolor])
+    E = np.sum(E,axis=1)
     return t, E

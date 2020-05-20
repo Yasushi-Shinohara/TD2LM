@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding: UTF-8
 # This is created 2020/04/17 by Y. Shinohara
-# This is lastly modified 2020/04/20 by Y. Shinohara #This part is highly doubtable because of my lazyness
+# This is lastly modified 2020/05/20 by Y. Shinohara #This part is highly doubtable because of my lazyness
 import time
 ts = time.time()
 from modules.print_funcs import print_header, print_footer, print_midtime, print_endtime
@@ -45,7 +45,7 @@ nv = np.zeros([param.Nt],dtype=np.float64)
 nc = np.zeros([param.Nt],dtype=np.float64)
 Ene = np.zeros([param.Nt],dtype=np.float64)
 
-if (np.amax(t) < param.Tpulse):
+if (np.amax(t) < np.amax(param.Tpulse)):
     print('# WARNING: max(t) is shorter than Tpulse')
         
 if (not param.cluster_mode):
