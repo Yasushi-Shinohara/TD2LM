@@ -64,13 +64,13 @@ class parameter_class:
                 if (str(text[i]) == 'Ncolor'):
                     self.Ncolor = int(str(text[i+1]))
                 if (str(text[i]) == 'Tpulse'):
-                    self.Tpulse = float(str(text[i+1]))
+                    self.Tpulse = float(str(text[i+1].split()[0]))
                 if (str(text[i]) == 'omegac'):
-                    self.omegac = float(str(text[i+1]))
+                    self.omegac = float(str(text[i+1].split()[0]))
                 if (str(text[i]) == 'phi_CEP'):
-                    self.phi_CEP = float(str(text[i+1]))
+                    self.phi_CEP = float(str(text[i+1].split()[0]))
                 if (str(text[i]) == 'nenvelope'):
-                    self.nenvelope = int(str(text[i+1]))
+                    self.nenvelope = int(str(text[i+1].split()[0]))
                 if (str(text[i]) == 'E0'):
                     self.E0 = float(str(text[i+1].split()[0]))
             if (self.Ncolor >= 2):
