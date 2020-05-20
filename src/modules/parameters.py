@@ -83,25 +83,25 @@ class parameter_class:
                     if (str(text[i]) == 'Tpulse'):
                         temp = text[i+1].split()
                         self.Tpulse = np.array(temp,dtype='float64')
-                        if (len(self.Tpulse) != sefl.Ncolor):
+                        if (len(self.Tpulse) != self.Ncolor):
                             print('Error: Number of argmeunt in Tpulse is wrong.')
                             sys.exit()
                     if (str(text[i]) == 'omegac'):
                         temp = text[i+1].split()
                         self.omegac = np.array(temp,dtype='float64')
-                        if (len(self.omegac) != sefl.Ncolor):
+                        if (len(self.omegac) != self.Ncolor):
                             print('Error: Number of argmeunt in omegac is wrong.')
                             sys.exit()
                     if (str(text[i]) == 'phi_CEP'):
                         temp = text[i+1].split()
                         self.phi_CEP = np.array(temp,dtype='float64')
-                        if (len(self.phi_CEP) != sefl.Ncolor):
+                        if (len(self.phi_CEP) != self.Ncolor):
                             print('Error: Number of argmeunt in phi_CEP is wrong.')
                             sys.exit()
                     if (str(text[i]) == 'nenvelope'):
                         temp = text[i+1].split()
                         self.nenvelope = np.array(temp,dtype='int32')
-                        if (len(self.nenvelope) != sefl.Ncolor):
+                        if (len(self.nenvelope) != self.Ncolor):
                             print('Error: Number of argmeunt in nenvelope is wrong.')
                             sys.exit()
                     if (str(text[i]) == 'E0'):
