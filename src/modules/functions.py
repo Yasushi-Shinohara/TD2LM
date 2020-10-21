@@ -28,6 +28,23 @@ def h_U(param,h):
     U = np.exp(-zI*w[0]*param.dt)*np.outer(v[0,:],np.conj(v[0,:])) + np.exp(-zI*w[1]*param.dt)*np.outer(v[1,:],np.conj(v[1,:]))
     return U
 #
+def psih2psi_exp(param,psi,h):
+    U = h_U(param,h)
+    psi = np.dot(U, psi)
+    return psi
+#
+def psih_hpsi(param,psi,h):
+    hpsi = np.dot(h, psi)
+    return hpsi
+#
+def psih2psi_RK4(param,psi,h):
+    k1 = psih_hpsi(param, psi, h)/zI
+    k2 = psih_hpsi(param, psi + 0.5*param.dt*k1, h)/zI
+    k3 = psih_hpsi(param, psi + 0.5*param.dt*k2, h)/zI
+    k4 = psih_hpsi(param, psi + param.dt*k3, h)/zI
+    psi = psi + (k1 + 2.0*k2 + 2.0*k3 + k4)*param.dt/6.0
+    return psi
+#
 def Make_Efield(param):
     t = np.zeros([param.Nt],dtype=np.float64)
 #    E = np.zeros([param.Nt],dtype=np.float64)

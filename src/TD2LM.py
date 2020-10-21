@@ -14,7 +14,7 @@ from modules.constants import *
 from modules.parameters import parameter_class
 param = parameter_class()
 param.read_parameters()   #Initialization of the parameters and the replacement from the standard input
-from modules.functions import get_hD, E_hOD, psih_Ene, h_U, Make_Efield
+from modules.functions import get_hD, E_hOD, psih_Ene, h_U, psih2psi_exp, psih2psi_RK4, Make_Efield
 from modules.plot_funcs import plot_E, plot_RT
 
 if (not param.cluster_mode):
@@ -56,14 +56,22 @@ tt = time.time()
 print_midtime(ts,tt)
 #############################RT calculation##############################
 #Time-propagation
+if (param.propagator_option.lower() == 'exp'):
+    psih2psi = psih2psi_exp
+    print('# The exponential expression for the temporal propagator is chosen.')
+elif (param.propagator_option.upper() == 'RK4'):
+    psih2psi = psih2psi_RK4
+    print('# The Runge-Kutta 4th for the temporal propagator is chosen.')
+
 for it in range(param.Nt):
     if (param.PC_option):
         hOD = E_hOD(param,Eave[it])
     else:
         hOD = E_hOD(param,E[it])
     h = hD + hOD
-    U = h_U(param,h)
-    psi = np.dot(U, psi)
+    #U = h_U(param,h)
+    #psi = np.dot(U, psi)
+    psi = psih2psi(param,psi,h)
     nv[it] = (np.abs(psi[0]))**2
     nc[it] = (np.abs(psi[1]))**2
     norm = np.linalg.norm(psi)
