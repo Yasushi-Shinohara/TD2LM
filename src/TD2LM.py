@@ -14,7 +14,7 @@ from modules.constants import *
 from modules.parameters import parameter_class
 param = parameter_class()
 param.read_parameters()   #Initialization of the parameters and the replacement from the standard input
-from modules.functions import get_hD, E_hOD, psih_Ene, get_hD_IntPict, E_hOD_IntPict, psih_Ene_IntPict, \
+from modules.functions import get_hD, ES_hOD, psih_Ene, get_hD_IntPict, ES_hOD_IntPict, psih_Ene_IntPict, \
     h_U, psih2psi_exp, psih2psi_RK4, Make_Efield
 from modules.plot_funcs import plot_E, plot_RT
 
@@ -26,11 +26,11 @@ if (not param.cluster_mode):
 #############################Prep. for the system########################
 if (param.IntPict_option):
     get_hD = get_hD_IntPict
-    E_hOD = E_hOD_IntPict
+    ES_hOD = ES_hOD_IntPict
     psih_Ene = psih_Ene_IntPict
     print('# Note: Since the interaction picture is employd, relevant funcitons are overrided.')
 hD = get_hD(param)
-hOD = E_hOD(param,0.0,0.0)
+hOD = ES_hOD(param,0.0,0.0)
 h = hD + hOD
 
 psi = np.zeros([2],dtype=np.complex128)
@@ -75,9 +75,9 @@ elif (param.propagator_option.upper() == 'RK4'):
 
 for it in range(param.Nt):
     if (param.PC_option):
-        hOD = E_hOD(param,Eave[it],Save[it])
+        hOD = ES_hOD(param,Eave[it],Save[it])
     else:
-        hOD = E_hOD(param,E[it],S[it])
+        hOD = ES_hOD(param,E[it],S[it])
     h = hD + hOD
     #U = h_U(param,h)
     #psi = np.dot(U, psi)

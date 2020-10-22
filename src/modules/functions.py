@@ -17,13 +17,13 @@ def get_hD_IntPict(param):
     hD = np.zeros([2,2],dtype=np.complex128)
     return hD
 #
-def E_hOD(param,E,S): #The action S is not used for this function.
+def ES_hOD(param,E,S): #The action S is not used for this function.
     hOD = np.zeros([2,2],dtype=np.complex128)
     hOD[0,1] = -param.a*E                     #The negative sign is from elementary charge of electron
     hOD[1,0] = np.conj(hOD[0,1])
     return hOD
 #
-def E_hOD_IntPict(param,E,S):
+def ES_hOD_IntPict(param,E,S):
     hOD = np.zeros([2,2],dtype=np.complex128)
     hOD[0,1] = -np.exp(+zI*S)*param.a*E                     #The negative sign is from elementary charge of electron
     hOD[1,0] = np.conj(hOD[0,1])
