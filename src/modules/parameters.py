@@ -12,7 +12,7 @@ class parameter_class:
         self.PC_option = True           #Predictor-corrector option
         self.propagator_option = 'exp'  #Option to choose the temporal propagotor: 'exp' or 'RK4'
         self.minimal_output = True      #A flag to write-out minimal data or not
-        self.a = 10.0                   #A spatial dimension constant that the dipole : d = e*a
+        self.a = 10.0                   #A spatial dimension constant that the dipole : d = -e*a
         self.Delta = 9.0/Hartree        #The Gap of the two-level system in a.u.
         self.dt = 5.0e-1                #The size of the time-step
         self.Nt = 4000                  #The number of time steps
