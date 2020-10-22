@@ -14,7 +14,8 @@ from modules.constants import *
 from modules.parameters import parameter_class
 param = parameter_class()
 param.read_parameters()   #Initialization of the parameters and the replacement from the standard input
-from modules.functions import get_hD, E_hOD, psih_Ene, h_U, psih2psi_exp, psih2psi_RK4, Make_Efield
+from modules.functions import get_hD, E_hOD, psih_Ene, get_hD_IntPict, E_hOD_IntPict, psih_Ene_IntPict, \
+    h_U, psih2psi_exp, psih2psi_RK4, Make_Efield
 from modules.plot_funcs import plot_E, plot_RT
 
 if (not param.cluster_mode):
@@ -23,24 +24,33 @@ if (not param.cluster_mode):
     from matplotlib import cm #To include color map
 
 #############################Prep. for the system########################
+if (param.IntPict_option):
+    get_hD = get_hD_IntPict
+    E_hOD = E_hOD_IntPict
+    psih_Ene = psih_Ene_IntPict
+    print('# Note: Since the interaction picture is employd, relevant funcitons are overrided.')
 hD = get_hD(param)
-hOD = E_hOD(param,0.0)
+hOD = E_hOD(param,0.0,0.0)
 h = hD + hOD
 
 psi = np.zeros([2],dtype=np.complex128)
 psi[1] = 1.0  #Lower level is initailly fully occupied
 
-Ene = psih_Ene(psi,h)
+Ene = psih_Ene(param,psi,h)
 print('# System energy at initial:',Ene, '[a.u.] =',Ene*Hartree, ' [eV]')
 #sys.exit()
 
 #############################Prep. for RT################################
 t, E = Make_Efield(param)
+S = param.Delta*t #This is the action \int_0^t \Delta dt' = Delta*t
 if (param.PC_option):
     Eave = 0.0*E
+    Save = 0.0*S
     for it in range(param.Nt-1):
         Eave[it] = 0.5*(E[it] + E[it+1])
+        Save[it] = 0.5*(S[it] + S[it+1])
     Eave[param.Nt - 1] = 1.0*Eave[param.Nt - 2]
+    Save[param.Nt - 1] = 1.0*Save[param.Nt - 2]
 nv = np.zeros([param.Nt],dtype=np.float64)
 nc = np.zeros([param.Nt],dtype=np.float64)
 Ene = np.zeros([param.Nt],dtype=np.float64)
@@ -65,9 +75,9 @@ elif (param.propagator_option.upper() == 'RK4'):
 
 for it in range(param.Nt):
     if (param.PC_option):
-        hOD = E_hOD(param,Eave[it])
+        hOD = E_hOD(param,Eave[it],Save[it])
     else:
-        hOD = E_hOD(param,E[it])
+        hOD = E_hOD(param,E[it],S[it])
     h = hD + hOD
     #U = h_U(param,h)
     #psi = np.dot(U, psi)
@@ -75,7 +85,7 @@ for it in range(param.Nt):
     nv[it] = (np.abs(psi[0]))**2
     nc[it] = (np.abs(psi[1]))**2
     norm = np.linalg.norm(psi)
-    Ene[it] = psih_Ene(psi,h)
+    Ene[it] = psih_Ene(param,psi,h)
     if (it%1000 == 0):
         print('# ',it, Ene[it], norm)
 

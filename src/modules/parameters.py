@@ -9,6 +9,7 @@ class parameter_class:
     def __init__(self):
         #Default values for the parameters
         self.cluster_mode = False
+        self.IntPict_option = False     #An option to realize the interaction picture for the system descrption
         self.PC_option = True           #Predictor-corrector option
         self.propagator_option = 'exp'  #Option to choose the temporal propagotor: 'exp' or 'RK4'
         self.minimal_output = True      #A flag to write-out minimal data or not
@@ -44,6 +45,11 @@ class parameter_class:
                         self.cluster_mode = True
                     else:
                         self.cluster_mode = False
+                if (str(text[i]) == 'IntPict_option'):
+                    if (str(text[i+1]) == 'True'):
+                        self.IntPict_option = True
+                    else:
+                        self.IntPict_option = False
                 if (str(text[i]) == 'PC_option'):
                     if (str(text[i+1]) == 'True'):
                         self.PC_option = True
@@ -120,8 +126,11 @@ class parameter_class:
         
         print('#=====Print the parmeters')
         print('# cluster_mode =', self.cluster_mode)
+        print('# IntPict_option =', self.IntPict_option)
         print('# PC_option =', self.PC_option)
         print('# propagator_option =', self.propagator_option)
+        if (self.IntPict_option and (self.propagator_option.lower() == 'exp')):
+            print('#   WARNING: The interaction picture is not compatible with exponential expression for the propagator.')
         print('# minimal_output =', self.minimal_output)
         print('# a =', self.a, ' [a.u.] =',self.a*aB, ' [nm]')
         print('# Delta =', self.Delta, ' [a.u.] =', self.Delta*Hartree, ' [eV]') 
