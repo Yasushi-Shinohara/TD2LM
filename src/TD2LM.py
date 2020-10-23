@@ -28,7 +28,7 @@ if (param.IntPict_option):
     get_hD = get_hD_IntPict
     ES_hOD = ES_hOD_IntPict
     psih_Ene = psih_Ene_IntPict
-    print('# Note: Since the interaction picture is employd, relevant funcitons are overrided.')
+    print('# Note: Since the interaction picture is employed, relevant funcitons are overwritten.')
 hD = get_hD(param)
 hOD = ES_hOD(param,0.0,0.0)
 h = hD + hOD
