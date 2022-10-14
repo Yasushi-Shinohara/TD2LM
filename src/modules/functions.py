@@ -41,7 +41,8 @@ def psih_Ene_IntPict(param,psi,h):
 #
 def h_U(param,h):
     w, v = np.linalg.eigh(h)
-    U = np.exp(-zI*w[0]*param.dt)*np.outer(v[0,:],np.conj(v[0,:])) + np.exp(-zI*w[1]*param.dt)*np.outer(v[1,:],np.conj(v[1,:]))
+    #U = np.exp(-zI*w[0]*param.dt)*np.outer(v[0,:],np.conj(v[0,:])) + np.exp(-zI*w[1]*param.dt)*np.outer(v[1,:],np.conj(v[1,:])) #This must be bug
+    U = np.exp(-zI*w[0]*param.dt)*np.outer(v[:,0],np.conj(v[:,0])) + np.exp(-zI*w[1]*param.dt)*np.outer(v[:,1],np.conj(v[:,1]))
     return U
 #
 def psih2psi_exp(param,psi,h):
